@@ -1,38 +1,354 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Ma page de test</title>
-    <link rel="stylesheet" href="styles/styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chantier en cours</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700;900&family=Fira+Code&display=swap"
       rel="stylesheet"
     />
+
+    <style>
+      body {
+        margin: 0;
+        background-color: #1212129a;
+        color: #fff;
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        cursor:
+          url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' style='font-size:24px'><text y='1.2em'>🔨</text></svg>"),
+          auto;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        z-index: 5;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        border: 20px solid;
+        border-image: repeating-linear-gradient(
+            45deg,
+            #ffcc00,
+            #ffcc00 20px,
+            #000 20px,
+            #000 40px
+          )
+          20;
+      }
+
+      #matrix-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0; /* Derrière le contenu */
+      }
+
+      .container {
+        position: relative;
+        z-index: 5; /* Devant la Matrix */
+        text-align: center;
+        width: 95%;
+        max-width: 900px;
+        background: rgba(
+          18,
+          18,
+          18,
+          0
+        ); /* Fond semi-transparent pour lire le texte */
+        padding: 30px;
+        border-radius: 15px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #ff0000;
+        text-transform: uppercase;
+        padding-top: 50px;
+        animation: clignotement-alerte 1.5s infinite;
+      }
+
+      @keyframes clignotement-alerte {
+        0%,
+        100% {
+          opacity: 1;
+          text-shadow: 0 0 20px rgba(250, 0, 0, 0.8);
+        }
+        50% {
+          opacity: 0.6;
+          text-shadow: 0 0 20px rgba(255, 0, 0, 0);
+        }
+      }
+
+      .zone-chantier {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        height: 180px;
+        margin-bottom: 10px;
+        border-bottom: 3px solid #333;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #pousseur-physique {
+        position: absolute;
+        bottom: 0;
+        left: -600px; /* Départ bien à gauche à l'extérieur */
+        display: flex;
+        align-items: flex-end;
+        width: 600px; /* Largeur fixe pour éviter l'écrasement du texte */
+        will-change: transform;
+      }
+
+      .pelleteuse {
+        position: relative;
+        width: 100px;
+        height: 60px;
+        background: #ffcc00;
+        border-radius: 5px 20px 5px 5px;
+        flex-shrink: 0;
+        z-index: 2;
+        margin-bottom: 15px;
+      }
+
+      .pelleteuse::before {
+        content: "👷";
+        position: absolute;
+        top: -30px;
+        left: 10px;
+        width: 40px;
+        height: 35px;
+        border: 2px solid #ffcc00;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .roue {
+        position: absolute;
+        bottom: -15px;
+        width: 36px;
+        height: 36px;
+        background: #222;
+        border: 3px dashed #444; /* Les tirets créent l'effet visuel de rotation */
+        border-radius: 50%;
+        animation: rouler 2s linear infinite;
+      }
+
+      .roue-arriere {
+        left: 5px;
+      }
+      .roue-avant {
+        right: 7px;
+      }
+
+      @keyframes rouler {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .bras {
+        position: absolute;
+        right: -40px;
+        top: 10px;
+        width: 50px;
+        height: 12px;
+        background: #ffcc00;
+        transform-origin: left;
+        animation: creuser 1.5s ease-in-out infinite;
+      }
+
+      .godet {
+        position: absolute;
+        right: -15px;
+        bottom: -8px;
+        width: 25px;
+        height: 20px;
+        background: #444;
+        border-radius: 0 0 10px 10px;
+      }
+
+      #message {
+        font-size: 1.2rem;
+        color: #ddd;
+        font-weight: 300;
+        margin: 0 0 0 60px;
+        z-index: 1;
+        width: 300px;
+        flex-shrink: 0;
+        text-align: left;
+        line-height: 1.5;
+      }
+
+      @keyframes creuser {
+        0%,
+        100% {
+          transform: rotate(5deg);
+        }
+        50% {
+          transform: rotate(25deg);
+        }
+      }
+
+      /* STYLE DE LA BARRE AMÉLIORÉ */
+      .barre-container {
+        width: 100%;
+        height: 16px;
+        border-radius: 10px;
+        margin-top: 40px;
+        border: 1px solid #444;
+        overflow: hidden;
+        position: relative;
+      }
+
+      #barre-remplissage {
+        width: 0%;
+        height: 100%;
+        /* Gradient pour l'effet de défilement lumineux */
+        background: linear-gradient(
+          90deg,
+          #ff0000 0%,
+          #ffb2b2 50%,
+          #ff0000 100%
+        );
+        background-size: 200% 100%;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        transition: width 0.5s ease;
+        animation:
+          defilement-lumineux 6s linear infinite,
+          clignotement-doux 3s ease-in-out infinite;
+      }
+
+      /* Animation du passage de la lumière */
+      @keyframes defilement-lumineux {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      /* Animation du clignotement de l'éclat */
+      @keyframes clignotement-doux {
+        0%,
+        100% {
+          opacity: 1;
+          filter: brightness(1);
+        }
+        50% {
+          opacity: 0.8;
+          filter: brightness(1.3);
+        }
+      }
+
+      #pourcentage {
+        font-size: 20px;
+        margin-top: 15px;
+        font-family: "Fira Code", monospace;
+        color: #ff0000;
+        font-weight: bold;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+    </style>
   </head>
   <body>
-    <div id="ecran-accueil">
-      <div class="menu-selection">
-        <div class="carte-jeu">
-          <h3>Labyrinthe Infernal</h3>
-          <p>Échappe aux monstres et évite les pièges !</p>
-          <input type="number" id="input-niveaux" value="1" min="1" max="10" />
-          <button id="btn-start">Jouer au Labyrinthe</button>
-        </div>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="container">
+      <h1>⚠️Chantier en cours⚠️</h1>
 
-        <div class="carte-jeu futur">
-          <h3>Snake (Bientôt)</h3>
-          <p>Arrivera au niveau 5 du hub...</p>
-          <button disabled>Bloqué</button>
+      <div class="zone-chantier">
+        <div id="pousseur-physique">
+          <div class="pelleteuse">
+            <div class="roue roue-arriere"></div>
+            <div class="roue roue-avant"></div>
+            <div class="bras">
+              <div class="godet"></div>
+            </div>
+          </div>
+
+          <div id="message">
+            Ce site est actuellement en cours de développement. Notre équipe
+            d'ouvriers travaille d'arrache-pied pour ouvrir ce site rapidement.
+          </div>
         </div>
       </div>
+
+      <div class="barre-container">
+        <div id="barre-remplissage"></div>
+      </div>
+
+      <p id="pourcentage">Progression : 0%</p>
     </div>
 
-    <div id="compteur" class="hidden"></div>
-    <div id="labyrinthe" class="hidden"></div>
+    <script>
+      const canvas = document.getElementById("matrix-canvas");
+      const ctx = canvas.getContext("2d");
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.onresize = resize;
 
-    <script src="scripts/main.js"></script>
+      const fontSize = 16;
+      const columns = canvas.width / fontSize;
+      const drops = Array.from({ length: columns }).fill(1);
+
+      function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#00ff41";
+        ctx.font = fontSize + "px monospace";
+        for (let i = 0; i < drops.length; i++) {
+          const text = Math.round(Math.random());
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+            drops[i] = 0;
+          drops[i]++;
+        }
+      }
+      setInterval(drawMatrix, 50);
+
+      const AVANCEMENT_REEL = 5;
+      document.getElementById("barre-remplissage").style.width =
+        AVANCEMENT_REEL + "%";
+      document.getElementById("pourcentage").textContent =
+        `Progression : ${AVANCEMENT_REEL}%`;
+
+      const groupe = document.getElementById("pousseur-physique");
+      let position = -600; // Position de départ (pixel)
+
+      function glisser() {
+        position += 2; // Vitesse de déplacement
+
+        const limiteDroite =
+          document.querySelector(".zone-chantier").offsetWidth;
+
+        if (position > limiteDroite) {
+          position = -600; // On repart de l'extérieur gauche
+        }
+
+        groupe.style.left = position + "px";
+
+        requestAnimationFrame(glisser);
+      }
+
+      glisser();
+    </script>
   </body>
 </html>
