@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Hub - Labyrinthe</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <div class="carte-jeu" id="ecran-accueil">
+      <h3>Labyrinthe Infernal</h3>
+      <p>Échappe aux monstres et évite les pièges !</p>
+
+      <!-- Ajoutez l'input nom dans la carte-jeu existante[cite: 1] -->
+      <div class="config-jeu">
+        <label for="input-joueur">Nom du joueur :</label>
+        <input
+          type="text"
+          id="input-joueur"
+          placeholder="Pseudo"
+          maxlength="15"
+        />
+      </div>
+
+      <div class="config-jeu">
+        <label for="input-niveaux">Nombre de niveaux :</label>
+        <input type="number" id="input-niveaux" value="1" min="1" max="100" />
+      </div>
+
+      <button id="btn-start" class="bts-start">Jouer au Labyrinthe</button>
+    </div>
+
+    <!-- Ajoutez un affichage pour le temps à côté du compteur de niveau[cite: 1] -->
+    <div id="chrono" class="hidden">Temps : 0.0s</div>
+
+    <!-- Ajoutez une section pour le classement (Leaderboard) sous l'accueil[cite: 1] -->
+    <div id="classement" class="carte-jeu">
+      <h3>🏆 Meilleurs Temps</h3>
+      <ul id="liste-scores"></ul>
+      <button
+        id="btn-reset-scores"
+        style="background-color: #e74c3c; margin-top: 10px; font-size: 1.2rem"
+      >
+        Effacer les scores
+      </button>
+    </div>
+
+    <div id="compteur" class="hidden">Niveau : 1 / 1</div>
+    <div id="labyrinthe" class="hidden"></div>
+    <button id="btn-retour" class="btn-menu">⬅ Accueil</button>
+
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
