@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Hub - Simon</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <button id="btn-retour" class="btn-menu">⬅ Accueil</button>
+    <button id="btn-changer-joueur" class="btn-menu btn-joueur">
+      👤 <span id="pseudo-affiche">?</span> ✎
+    </button>
+
+    <!-- Modal saisie pseudo -->
+    <div id="modal-pseudo" class="modal-overlay">
+      <div class="modal-box">
+        <h2>Ton pseudo</h2>
+        <input
+          type="text"
+          id="input-pseudo"
+          maxlength="16"
+          placeholder="Entre ton pseudo..."
+        />
+        <button id="btn-valider-pseudo">Valider</button>
+      </div>
+    </div>
+
+    <div id="plateau">
+      <div id="titre">SIMON</div>
+
+      <div id="simon-container">
+        <div id="centre">
+          <div id="score-display">
+            <span id="score-label">NIVEAU</span>
+            <span id="score">0</span>
+          </div>
+          <button id="btn-start">START</button>
+          <div id="message"></div>
+        </div>
+
+        <!-- Les 4 boutons colorés -->
+        <div class="bouton-simon" id="vert" data-index="0"></div>
+        <div class="bouton-simon" id="rouge" data-index="1"></div>
+        <div class="bouton-simon" id="bleu" data-index="2"></div>
+        <div class="bouton-simon" id="jaune" data-index="3"></div>
+      </div>
+    </div>
+
+    <!-- Tableau des scores -->
+    <div id="scoreboard">
+      <h3 id="scoreboard-titre">🏆 Meilleurs scores</h3>
+      <table id="score-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Pseudo</th>
+            <th>Niveau</th>
+          </tr>
+        </thead>
+        <tbody id="score-body">
+          <tr>
+            <td colspan="3" class="vide">Aucun score pour l'instant</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
