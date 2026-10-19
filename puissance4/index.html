@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Puissance 4</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <button id="btn-menu" class="btn-menu">⬅ Accueil</button>
+    <div id="app">
+      <div id="status">
+        <span class="dot d1"></span>
+        <b id="cur">Rouge</b>
+      </div>
+
+      <div id="setup-overlay">
+        <div class="menu-card">
+          <header>
+            <div class="dots"><span></span><span></span></div>
+            <p class="subtitle">PUISSANCE 4</p>
+            <h1>Aligne quatre.<br />Domine la grille.</h1>
+            <p class="desc">
+              Jeu de puissance 4 — design minimal, chute réaliste derrière la
+              grille.
+            </p>
+          </header>
+
+          <div class="modes">
+            <button class="mode-btn" onclick="startGame('2p')">
+              <span class="tag">LOCAL</span>
+              <span class="title">2 joueurs</span>
+              <span class="detail">Affrontez un ami sur le même écran.</span>
+            </button>
+
+            <button class="mode-btn" onclick="startGame('ia')">
+              <span class="tag">SOLO</span>
+              <span class="title">vs Ordinateur</span>
+              <span class="detail"
+                >Une IA qui bloque, menace et centralise.</span
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="board-wrap">
+        <!-- Prévisualisation du jeton au survol -->
+        <div id="ghost-row"></div>
+
+        <div id="board">
+          <!-- Couche des jetons (sous la grille) -->
+          <div id="tokens-layer"></div>
+          <!-- Couche de la plaque bleue (avec trous transparents) -->
+          <div id="grid-cover"></div>
+          <!-- Couche invisible pour détecter les clics sur les colonnes -->
+          <div id="cols-layer"></div>
+        </div>
+      </div>
+
+      <div id="bottom">
+        <button class="reset" onclick="reset()">Nouvelle partie</button>
+        <button id="btn-retour" class="btn-retour">⬅ Retour</button>
+        <div id="scores">
+          <div class="sc">
+            <div class="dot d1"></div>
+            <span id="s1">0</span>
+          </div>
+          <div class="sc">
+            <div class="dot d2"></div>
+            <span id="s2">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
