@@ -1,0 +1,142 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: url("../../images/affiche_bataille.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#plateau {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  user-select: none; /* Empêche de surligner le texte en cliquant vite */
+}
+
+.carte-img {
+  width: 150px;
+  height: auto;
+  transition: transform 0.1s ease-in-out;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.carte-img:active {
+  transform: scale(0.95); /* Petit effet d'enfoncement quand on clique */
+}
+
+.combat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  width: 100%;
+}
+
+.carte-cont {
+  text-align: center;
+}
+
+.vs {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #ff4757;
+}
+
+#resultat {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-top: 20px;
+}
+
+.stack {
+  position: relative;
+  width: 150px;
+  height: 250px; /* Un peu plus haut pour le décalage */
+  margin: 0 auto;
+}
+
+.stack .carte-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px;
+  transition: transform 0.3s ease;
+}
+
+/* Style pour le dos de carte noir */
+.carte-dos {
+  width: 150px;
+  height: 210px; /* Ajuste selon la hauteur de tes images */
+  background-color: #1a1a1a; /* Noir très foncé */
+  border: 3px solid white; /* Bordure blanche pour la détacher du fond */
+  border-radius: 10px; /* Même arrondi que tes cartes */
+  position: absolute;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* On s'assure que les couches du milieu utilisent bien les mêmes décalages */
+.stack .milieu {
+  z-index: 2;
+  transform: translate(10px, 15px);
+}
+
+.stack .dessous {
+  z-index: 1;
+  transform: translate(0, 0);
+}
+
+.stack .dessus {
+  z-index: 3;
+  transform: translate(20px, 30px);
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 15px;
+  background: #3498db;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.btn-menu {
+  position: absolute; /* Reste collé en haut à gauche */
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.15); /* blanc à 15% d'opacité */
+  backdrop-filter: blur(8px); /* flou derrière la carte — effet verre dépoli */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  z-index: 1000; /* Pour qu'il soit toujours au-dessus du jeu */
+  font-size: 14px;
+}
+
+.btn-menu:hover {
+  background: rgba(255, 255, 255, 0.3); /* blanc à 15% d'opacité */
+}
+
+#compteur {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.15); /* blanc à 15% d'opacité */
+  backdrop-filter: blur(8px); /* flou derrière la carte — effet verre dépoli */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
