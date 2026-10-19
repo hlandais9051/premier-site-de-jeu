@@ -1,0 +1,525 @@
+/* ===== VARIABLES ===== */
+:root {
+  --bg: #0d0d0d;
+  --surface: #1a1a1a;
+  --border: rgba(255, 255, 255, 0.1);
+  --text: #e8e8e8;
+  --muted: #555;
+  --accent: #e8c84a;
+
+  /* Couleurs du jeu */
+  --c0: #e74c3c; /* rouge    */
+  --c1: #3498db; /* bleu     */
+  --c2: #2ecc60; /* vert     */
+  --c3: #f39c12; /* orange   */
+  --c4: #9b59b6; /* violet   */
+  --c5: #ff00bb; /* rose     */
+  --c6: #e8c84a; /* jaune    */
+  --c7: #888888; /* gris     */
+
+  --pion-noir: green;
+  --pion-blanc: red;
+}
+
+/* ===== RESET ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "DM Mono", monospace;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== BOUTONS MENU ===== */
+.btn-menu {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  font-family: "DM Mono", monospace;
+  font-size: 13px;
+  z-index: 100;
+  transition: background 0.2s;
+}
+.btn-menu:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.btn-joueur {
+  position: fixed;
+  top: 10px;
+  right: 250px; /* largeur scoreboard + marge */
+  left: auto;
+  font-size: 13px;
+  z-index: 1000;
+}
+
+/* ===== APP ===== */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  max-width: 820px;
+  padding: 60px 24px 16px;
+  gap: 16px;
+}
+
+/* ===== HEADER ===== */
+#header {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+#titre {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3.2rem;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  text-shadow: 0 0 30px rgba(232, 200, 74, 0.35);
+  line-height: 1;
+}
+
+#sous-titre {
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  margin-top: 2px;
+}
+
+/* ===== MAIN ===== */
+#main {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ===== GRILLE ===== */
+#grille-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+#grille {
+  display: flex;
+  flex-direction: column-reverse; /* Dernière tentative en bas */
+  gap: 6px;
+  padding-bottom: 4px;
+}
+
+/* Ligne d'essai */
+.ligne {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  opacity: 0.4;
+  transition:
+    opacity 0.3s,
+    border-color 0.3s;
+}
+
+.ligne.jouee {
+  opacity: 1;
+}
+
+.ligne.active {
+  opacity: 1;
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(232, 200, 74, 0.15);
+}
+
+/* Numéro de ligne */
+.ligne-num {
+  font-size: 0.65rem;
+  color: var(--muted);
+  width: 18px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Slots de couleur dans la grille */
+.slot-grille {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #2a2a2a;
+  border: 2px solid #333;
+  flex-shrink: 0;
+}
+
+.slot-grille.rempli {
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Pions indices (2x2) */
+.indices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.pion {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #2a2a2a;
+  border: 1px solid #333;
+}
+
+.pion.noir {
+  background: var(--pion-noir);
+  border-color: var(--pion-noir);
+}
+.pion.blanc {
+  background: var(--pion-blanc);
+  border-color: var(--pion-blanc);
+}
+
+/* ===== PANNEAU DROIT ===== */
+#panneau {
+  width: auto;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px;
+}
+
+.section-label {
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  margin-bottom: 8px;
+}
+
+/* ===== PALETTE ===== */
+#palette {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.couleur-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition:
+    transform 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.couleur-btn:hover {
+  transform: scale(1.1);
+}
+
+.couleur-btn.selectionnee {
+  border-color: white;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.4);
+}
+
+/* ===== SLOTS ACTIFS ===== */
+#slots-actifs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.slot-actif {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #2a2a2a;
+  border: 2px solid #444;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    transform 0.15s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.slot-actif:hover {
+  border-color: #666;
+  transform: scale(1.05);
+}
+
+.slot-actif.rempli {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Boutons valider/effacer */
+#btn-valider,
+#btn-effacer {
+  width: 100%;
+  padding: 9px;
+  border: none;
+  border-radius: 8px;
+  font-family: "DM Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    opacity 0.2s;
+  margin-bottom: 4px;
+}
+
+#btn-valider {
+  background: var(--accent);
+  color: #111;
+}
+#btn-valider:hover:not(:disabled) {
+  background: #f5d96b;
+}
+#btn-valider:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+#btn-effacer {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+#btn-effacer:hover {
+  background: rgba(255, 255, 255, 0.13);
+}
+
+/* ===== SCOREBOARD ===== */
+#scoreboard {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 230px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 14px;
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+}
+
+#scoreboard-titre {
+  font-size: 0.6rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#score-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+
+#score-table thead th {
+  color: var(--muted);
+  font-weight: 400;
+  padding: 3px 4px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+#score-table thead th:last-child {
+  text-align: right;
+}
+
+#score-table tbody td {
+  padding: 5px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+#score-table tbody td:first-child {
+  color: var(--muted);
+  width: 20px;
+}
+#score-table tbody td:last-child {
+  text-align: right;
+  color: #2ecc71;
+  font-weight: 500;
+}
+
+#score-table tbody tr.moi td {
+  color: var(--accent);
+}
+#score-table tbody tr.moi td:last-child {
+  color: var(--accent);
+}
+
+.vide {
+  color: var(--muted) !important;
+  font-style: italic;
+  text-align: center !important;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(2px); /* Un flou plus léger */
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal-box {
+  background: #1c1c1c;
+  border: 2px solid var(--accent);
+  pointer-events: auto;
+  border-radius: 18px;
+  padding: 36px 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
+.modal-box h2 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+
+.modal-box p {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+#fin-emoji {
+  font-size: 2.5rem;
+}
+
+/* Révèle la solution dans la modal */
+#solution-reveal {
+  display: flex;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.solution-bille {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+.modal-box input {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-family: "DM Mono", monospace;
+  font-size: 1rem;
+  padding: 10px 16px;
+  outline: none;
+  text-align: center;
+  width: 210px;
+}
+
+.modal-box input::placeholder {
+  color: #444;
+}
+.modal-box input:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.modal-box button {
+  padding: 10px 32px;
+  background: var(--accent);
+  border: none;
+  border-radius: 20px;
+  color: #111;
+  font-family: "DM Mono", monospace;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-box button:hover {
+  background: #f5d96b;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes popIn {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.ligne.jouee {
+  animation: popIn 0.25s ease forwards;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-6px);
+  }
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+.shake {
+  animation: shake 0.35s ease;
+}
