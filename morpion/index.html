@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <!-- Meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="author" content="Thibault Napoléon" />
+
+    <!-- Title -->
+    <title></title>
+
+    <!-- CSS Styles -->
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+    <script src="scripts/script.js" defer></script>
+    <!-- JS Scripts -->
+  </head>
+  <body>
+    <button id="btn-retour" class="btn-menu">⬅ Accueil</button>
+    <!-- Header -->
+    <header>
+      <h1>Jeu du Morpion</h1>
+      <hr />
+    </header>
+
+    <!-- Players -->
+    <section>
+      <h2>Noms des joueurs</h2>
+      <div class="joueurs-ligne">
+        <label for="player1">Joueur 1 :</label>
+        <input name="player1" type="text" placeholder="Joueur 1" />
+        <label for="player2">Joueur 2 :</label>
+        <input name="player2" type="text" placeholder="Joueur 2" />
+      </div>
+    </section>
+
+    <!-- Board -->
+    <section>
+      <form>
+        <h2>Plateau de jeu <span id="timer"></span></h2>
+        <div class="game">
+          <div class="board">
+            <span id="cell0" class="cell"></span>
+            <span id="cell1" class="cell"></span>
+            <span id="cell2" class="cell"></span>
+            <span id="cell3" class="cell"></span>
+            <span id="cell4" class="cell"></span>
+            <span id="cell5" class="cell"></span>
+            <span id="cell6" class="cell"></span>
+            <span id="cell7" class="cell"></span>
+            <span id="cell8" class="cell"></span>
+          </div>
+          <div>
+            <h2>Règles du jeu</h2>
+            <br />
+            <div id="rules">
+              <p>
+                Pour jouer, il suffit de rentrer le nom des joueurs puis de
+                cliquer sur le plateau de jeu :
+              </p>
+              <p>- le joueur 1 commence</p>
+              <p>- puis le joueur 2 et ainsi de suite</p>
+              <p>
+                Si vous pensez avoir gagné, cliquez sur le bouton « vérifier »
+                et recommencer à l'infini.
+              </p>
+              <p>Bonne partie !!</p>
+            </div>
+          </div>
+        </div>
+        <div class="boutons-jeu">
+          <button id="play" type="button">Vérifier</button>
+          <button id="reset" type="button">Recommencer</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Scores -->
+    <section>
+      <h2>Scores</h2>
+      <table id="scores">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Date et heure</th>
+          </tr>
+        </thead>
+      </table>
+      <br />
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <hr />
+      <a href="https://www.isen.fr/" target="_blank"
+        >&copy; ISEN Yncréa Ouest - A3</a
+      >
+    </footer>
+  </body>
+</html>

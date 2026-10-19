@@ -1,0 +1,137 @@
+body {
+  text-align: center;
+  color: white;
+  background-image: url("../../images/affiche_morpion.png");
+  background-size: cover;
+  background-position: center;
+}
+
+header {
+  margin: 0;
+  padding: 0.2rem 0;
+}
+
+header hr {
+  margin: 0.2rem 0;
+}
+
+h1 {
+  margin: 0.3rem 0;
+}
+
+h2 {
+  margin: 0.3rem 0;
+}
+
+h2 {
+  display: inline-block; /* ← fond qui épouse le texte */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 2px 10px;
+}
+
+#rules {
+  background: rgba(255, 255, 255, 0.15); /* ← fond sur tout le bloc */
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 10px 15px;
+  font-size: 1.4rem;
+  margin: 0.8rem 0;
+}
+
+section {
+  width: 31rem;
+  margin: 0.2rem auto; /* ← réduit de 0.5rem à 0.2rem */
+}
+
+section br {
+  display: none; /* ← supprime les sauts de ligne */
+}
+
+.joueurs-ligne {
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+table,
+th,
+td {
+  border-style: solid;
+  border-width: 0.1rem;
+  border-color: white;
+  margin: auto;
+}
+
+th,
+td {
+  padding: 0.5rem;
+}
+
+.game {
+  display: grid;
+  grid-template-columns: 28rem 20rem;
+  gap: 12rem;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 10rem);
+  grid-template-rows: repeat(3, 10rem);
+  margin-top: 90px; /* ajuste pour descendre le plateau */
+  margin-left: -40px; /* ajuste pour centrer le plateau */
+  gap: 3.5rem; /* espace entre les cellules */
+}
+
+.cell {
+  display: flex;
+  background-color: transparent;
+  color: black;
+  height: 10rem;
+  width: 10rem;
+  font-size: 8rem;
+  font-family: sans-serif;
+  align-items: center;
+  justify-content: center;
+}
+
+#rules {
+  margin: 0.8rem 0;
+  font-size: 1.4rem;
+}
+
+.boutons-jeu {
+  margin-top: 3rem; /* ← descend les boutons */
+}
+
+button {
+  border-radius: 25px;
+  height: 30px;
+}
+
+section input {
+  border-radius: 25px;
+}
+
+.btn-menu {
+  position: absolute; /* Reste collé en haut à gauche */
+  top: 20px;
+  left: 20px;
+  height: auto;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.15); /* blanc à 15% d'opacité */
+  backdrop-filter: blur(8px); /* flou derrière la carte — effet verre dépoli */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  z-index: 1000; /* Pour qu'il soit toujours au-dessus du jeu */
+  font-size: 14px;
+}
+
+.btn-menu:hover {
+  background: rgba(255, 255, 255, 0.3); /* blanc à 15% d'opacité */
+}
