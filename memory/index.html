@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Hub - Memory</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <div id="compteur" class="hidden">Paires : 0 / 10 — Coups : 0</div>
+    <div id="plateau"></div>
+
+    <button id="btn-changer-joueur" class="btn-menu btn-joueur">
+      👤 <span id="pseudo-affiche">?</span> ✎
+    </button>
+
+    <div id="scoreboard">
+      <h3>🏆 RECORDS</h3>
+      <table id="score-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Pseudo</th>
+            <th>Coups</th>
+          </tr>
+        </thead>
+        <tbody id="score-body"></tbody>
+      </table>
+    </div>
+
+    <div id="modal-pseudo" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h2>TON PSEUDO</h2>
+        <input
+          type="text"
+          id="input-pseudo"
+          maxlength="16"
+          placeholder="Entre ton pseudo..."
+        />
+        <button id="btn-valider-pseudo">VALIDER</button>
+      </div>
+    </div>
+
+    <button id="btn-retour" class="btn-menu">⬅ Accueil</button>
+    <button id="btn-rejouer" style="display: none">Rejouer</button>
+
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
