@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Hub - Snake</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <!-- Modal pseudo -->
+    <div id="modal-pseudo" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h2>TON PSEUDO</h2>
+        <input
+          type="text"
+          id="input-pseudo"
+          maxlength="16"
+          placeholder="Entre ton pseudo..."
+        />
+        <button id="btn-valider-pseudo">Valider</button>
+      </div>
+    </div>
+
+    <!-- Bouton joueur (haut à gauche du scoreboard) -->
+    <button id="btn-changer-joueur" class="btn-menu btn-joueur">
+      👤 <span id="pseudo-affiche-accueil">?</span> ✎
+    </button>
+
+    <!-- Scoreboard fixe en haut à droite -->
+    <div id="scoreboard">
+      <div id="scoreboard-titre">🏆 Meilleurs scores</div>
+      <div id="score-tabs">
+        <button class="tab active" data-diff="200">Débutant</button>
+        <button class="tab" data-diff="150">Facile</button>
+        <button class="tab" data-diff="100">Normal</button>
+        <button class="tab" data-diff="50">Difficile</button>
+        <button class="tab" data-diff="30">Impossible</button>
+      </div>
+      <table id="score-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Pseudo</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody id="score-body">
+          <tr>
+            <td colspan="3" class="vide">Aucun score</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Écran accueil -->
+    <div class="carte-jeu" id="ecran-accueil">
+      <h3>🐍 Snake</h3>
+      <p>Mange les pommes et ne te mords pas la queue !</p>
+
+      <div class="config-jeu">
+        <label for="input-vitesse">Vitesse :</label>
+        <select id="input-vitesse">
+          <option value="200">Débutant</option>
+          <option value="150">Facile</option>
+          <option value="100" selected>Normal</option>
+          <option value="50">Difficile</option>
+          <option value="30">Impossible</option>
+        </select>
+      </div>
+
+      <button id="btn-start" class="bts-start">Jouer au Snake</button>
+    </div>
+
+    <canvas id="canvas-snake" class="hidden"></canvas>
+    <div id="compteur" class="hidden"></div>
+    <button id="btn-retour" class="btn-menu">⬅ Accueil</button>
+
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
