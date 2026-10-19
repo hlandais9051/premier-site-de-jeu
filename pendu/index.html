@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Hub - Pendu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <button class="btn-menu" id="btn-retour-pendu">⬅ Accueil</button>
+
+    <!-- ============ ÉCRAN CHOIX DIFFICULTÉ ============ -->
+    <section id="ecran-difficulte">
+      <h1 id="titre-pendu">LE PENDU</h1>
+      <p id="sous-titre-pendu">Choisis ta difficulté</p>
+
+      <div id="cartes-difficulte">
+        <div class="carte-diff" data-diff="facile">
+          <div class="carte-diff-canvas-wrapper">
+            <canvas
+              class="mini-canvas"
+              id="canvas-facile"
+              width="120"
+              height="140"
+            ></canvas>
+          </div>
+          <div class="carte-diff-info">
+            <h2>FACILE</h2>
+            <p>Mots courts<br />4 essais</p>
+            <div class="diff-essais">
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="carte-diff" data-diff="normal">
+          <div class="carte-diff-canvas-wrapper">
+            <canvas
+              class="mini-canvas"
+              id="canvas-normal"
+              width="120"
+              height="140"
+            ></canvas>
+          </div>
+          <div class="carte-diff-info">
+            <h2>NORMAL</h2>
+            <p>Mots moyens<br />7 essais</p>
+            <div class="diff-essais">
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="carte-diff" data-diff="difficile">
+          <div class="carte-diff-canvas-wrapper">
+            <canvas
+              class="mini-canvas"
+              id="canvas-difficile"
+              width="120"
+              height="140"
+            ></canvas>
+          </div>
+          <div class="carte-diff-info">
+            <h2>DIFFICILE</h2>
+            <p>Mots longs<br />10 essais</p>
+            <div class="diff-essais">
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+              <span class="pip"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN JEU ============ -->
+    <section id="ecran-jeu" class="hidden">
+      <button id="btn-rejouer" class="btn-action">↺ Rejouer</button>
+      <button id="btn-changer-diff" class="btn-action">⚙ Difficulté</button>
+
+      <div class="game-container">
+        <div id="label-difficulte"></div>
+        <canvas id="monCanvas" width="200" height="220"></canvas>
+        <div id="mot-a-deviner"></div>
+        <div id="clavier-virtuel"></div>
+        <div id="statut-pendu">
+          Essais restants : <span id="essais">?</span>
+        </div>
+      </div>
+    </section>
+
+    <script src="scripts/data.js"></script>
+    <script src="scripts/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,433 @@
+/* ===== BASE ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "DM Mono", monospace;
+  background: #0f0f0f;
+  background-image: url("../../images/affiche_pendu.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Overlay sombre par-dessus l'image de fond */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 0;
+  pointer-events: none;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== BOUTON RETOUR ===== */
+.btn-menu {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  padding: 9px 18px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-family: "DM Mono", monospace;
+  font-size: 13px;
+  z-index: 100;
+  transition: background 0.2s;
+}
+.btn-menu:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ===== ÉCRAN DIFFICULTÉ ===== */
+#ecran-difficulte {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding: 80px 24px 40px;
+  width: 100%;
+}
+
+#titre-pendu {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 5rem;
+  letter-spacing: 0.3em;
+  color: white;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+  line-height: 1;
+}
+
+#sous-titre-pendu {
+  font-size: 1.75rem;
+  color: #000000;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-top: -30px;
+}
+
+section h1,
+section p {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ===== CARTES DIFFICULTÉ ===== */
+#cartes-difficulte {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.carte-diff {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 160px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.carte-diff:hover {
+  transform: translateY(-6px);
+}
+
+/* Couleurs par difficulté */
+.carte-diff[data-diff="facile"] {
+  border-color: #2ecc71;
+}
+.carte-diff[data-diff="facile"]:hover {
+  box-shadow: 0 12px 40px rgba(46, 204, 113, 0.3);
+}
+.carte-diff[data-diff="normal"] {
+  border-color: #f39c12;
+}
+.carte-diff[data-diff="normal"]:hover {
+  box-shadow: 0 12px 40px rgba(243, 156, 18, 0.3);
+}
+.carte-diff[data-diff="difficile"] {
+  border-color: #e74c3c;
+}
+.carte-diff[data-diff="difficile"]:hover {
+  box-shadow: 0 12px 40px rgba(231, 76, 60, 0.3);
+}
+
+.carte-diff-canvas-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0 8px;
+  background: #111;
+}
+
+.mini-canvas {
+  display: block;
+}
+
+.carte-diff-info {
+  padding: 14px 16px 18px;
+  text-align: center;
+  width: 100%;
+}
+
+.carte-diff-info h2 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.15em;
+  margin-bottom: 4px;
+}
+
+.carte-diff[data-diff="facile"] h2 {
+  color: #2ecc71;
+}
+.carte-diff[data-diff="normal"] h2 {
+  color: #f39c12;
+}
+.carte-diff[data-diff="difficile"] h2 {
+  color: #e74c3c;
+}
+
+.carte-diff-info p {
+  font-size: 0.65rem;
+  color: #777;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* Pips = indicateur nombre d'essais */
+.diff-essais {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #333;
+}
+
+.carte-diff[data-diff="facile"] .pip {
+  background: rgba(46, 204, 113, 0.5);
+}
+.carte-diff[data-diff="normal"] .pip {
+  background: rgba(243, 156, 18, 0.5);
+}
+.carte-diff[data-diff="difficile"] .pip {
+  background: rgba(231, 76, 60, 0.5);
+}
+
+/* ===== ÉCRAN JEU ===== */
+#ecran-jeu {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.5s ease;
+}
+
+/* Fonds selon difficulté */
+#ecran-jeu.diff-facile {
+  box-shadow: inset 0 0 300px rgba(13, 31, 18, 0.6);
+}
+#ecran-jeu.diff-normal {
+  box-shadow: inset 0 0 300px rgba(31, 21, 8, 0.6);
+}
+#ecran-jeu.diff-difficile {
+  box-shadow: inset 0 0 300px rgba(26, 5, 5, 0.6);
+}
+
+/* Boutons action en haut à droite */
+.btn-action {
+  position: fixed;
+  padding: 9px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  z-index: 100;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.btn-action:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: white;
+}
+
+#btn-rejouer {
+  top: 18px;
+  right: 18px;
+}
+#btn-changer-diff {
+  top: 18px;
+  right: 130px;
+}
+
+/* ===== GAME CONTAINER ===== */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 80px 24px 40px;
+  width: 100%;
+  max-width: 700px;
+}
+
+/* Label difficulté */
+#label-difficulte {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.85rem;
+  letter-spacing: 0.3em;
+  opacity: 0.5;
+  background: rgba(0, 0, 0, 1);
+  backdrop-filter: blur(8px);
+}
+
+#ecran-jeu.diff-facile #label-difficulte {
+  color: #00ff6a;
+}
+#ecran-jeu.diff-normal #label-difficulte {
+  color: #ff9d00;
+}
+#ecran-jeu.diff-difficile #label-difficulte {
+  color: #ff0000;
+}
+
+/* Canvas principal */
+#monCanvas {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.277);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ===== MOT À DEVINER ===== */
+#mot-a-deviner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  max-width: 95%;
+}
+
+.case-lettre {
+  width: clamp(22px, 5vw, 36px);
+  font-size: clamp(0.9rem, 3.5vw, 1.6rem);
+  font-weight: 500;
+  border-bottom: 2px solid rgb(255, 255, 255);
+  text-align: center;
+  line-height: 1.6;
+  transition: color 0.3s;
+}
+
+#ecran-jeu.diff-facile .case-lettre.trouvee {
+  color: #2ecc71;
+  border-color: #2ecc71;
+}
+#ecran-jeu.diff-normal .case-lettre.trouvee {
+  color: #f39c12;
+  border-color: #f39c12;
+}
+#ecran-jeu.diff-difficile .case-lettre.trouvee {
+  color: #ff1900;
+  border-color: #e74c3c;
+}
+
+/* ===== CLAVIER ===== */
+#clavier-virtuel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 600px;
+}
+
+#clavier-virtuel button {
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.397);
+  color: white;
+  font-family: "DM Mono", monospace;
+  font-weight: 500;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.1s,
+    opacity 0.2s;
+  flex: 0 0 auto;
+}
+
+#clavier-virtuel button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.08);
+}
+
+#clavier-virtuel button:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+/* Coloration des touches selon difficulté */
+#ecran-jeu.diff-facile #clavier-virtuel button:hover:not(:disabled) {
+  background: rgba(46, 204, 113, 0.25);
+}
+#ecran-jeu.diff-normal #clavier-virtuel button:hover:not(:disabled) {
+  background: rgba(243, 156, 18, 0.25);
+}
+#ecran-jeu.diff-difficile #clavier-virtuel button:hover:not(:disabled) {
+  background: rgba(231, 76, 60, 0.25);
+}
+
+/* ===== STATUT ===== */
+#statut-pendu {
+  font-size: 0.75rem;
+  color: #ffffff;
+  letter-spacing: 0.1em;
+}
+
+#essais {
+  font-weight: 700;
+  color: white;
+}
+
+/* ===== ANIMATIONS ===== */
+.shake-error {
+  animation: shakeAnim 0.4s ease-in-out;
+}
+
+@keyframes shakeAnim {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#ecran-jeu:not(.hidden) {
+  animation: fadeIn 0.35s ease forwards;
+}
