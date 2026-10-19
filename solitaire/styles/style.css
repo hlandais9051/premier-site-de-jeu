@@ -1,0 +1,521 @@
+/* ===== VARIABLES ===== */
+:root {
+  --bg: #0a1a0f;
+  --felt: #0f2317;
+  --felt2: #112a1a;
+  --border: rgba(255, 255, 255, 0.08);
+  --gold: #c9a84c;
+  --gold-dim: rgba(201, 168, 76, 0.3);
+  --text: #e8e0cc;
+  --muted: #556655;
+  --card-w: 80px;
+  --card-h: 112px;
+  --overlap: 22px; /* décalage entre cartes face cachée */
+  --overlap-v: 28px; /* décalage entre cartes face visible */
+}
+
+/* ===== RESET ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(
+      ellipse at 20% 50%,
+      rgba(20, 60, 30, 0.6) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 80% 20%,
+      rgba(10, 40, 20, 0.5) 0%,
+      transparent 50%
+    );
+  font-family: "DM Mono", monospace;
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  user-select: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ===== BOUTONS MENU ===== */
+.btn-menu {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  padding: 7px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  z-index: 200;
+  transition: background 0.2s;
+}
+.btn-menu:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.btn-joueur {
+  left: auto;
+  right: 260px;
+}
+
+/* ===== SCOREBOARD ===== */
+#scoreboard {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 240px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--gold-dim);
+  border-radius: 12px;
+  padding: 12px;
+  backdrop-filter: blur(10px);
+  z-index: 200;
+}
+
+#scoreboard-titre {
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+#score-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.tab {
+  flex: 1;
+  padding: 4px 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-family: "DM Mono", monospace;
+  font-size: 0.6rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tab.active {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+#score-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.7rem;
+}
+#score-table thead th {
+  color: var(--muted);
+  font-weight: 400;
+  padding: 3px 4px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+#score-table thead th:last-child {
+  text-align: right;
+}
+#score-table tbody td {
+  padding: 4px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+#score-table tbody td:first-child {
+  color: var(--muted);
+  width: 20px;
+}
+#score-table tbody td:last-child {
+  text-align: right;
+  color: #5dbb7a;
+  font-weight: 500;
+}
+#score-table tbody tr.moi td {
+  color: var(--gold);
+}
+#score-table tbody tr.moi td:last-child {
+  color: var(--gold);
+}
+.score-vide {
+  color: var(--muted) !important;
+  font-style: italic;
+  text-align: center !important;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal-box {
+  background: #111c13;
+  border: 1px solid var(--gold-dim);
+  border-radius: 16px;
+  padding: 32px 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+.modal-box h2 {
+  font-family: "Cinzel", serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+
+.modal-box p {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+.modal-box p strong {
+  color: white;
+}
+
+.modal-box input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-family: "DM Mono", monospace;
+  font-size: 1rem;
+  padding: 10px 16px;
+  outline: none;
+  text-align: center;
+  width: 210px;
+}
+.modal-box input::placeholder {
+  color: #333;
+}
+.modal-box input:focus {
+  border-color: var(--gold-dim);
+}
+
+.modal-box button {
+  padding: 10px 32px;
+  background: var(--gold);
+  border: none;
+  border-radius: 20px;
+  color: #111;
+  font-family: "DM Mono", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.modal-box button:hover {
+  background: #e0c060;
+}
+
+/* ===== ÉCRAN ACCUEIL ===== */
+#ecran-accueil {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 80px 24px 40px;
+}
+
+#titre-solitaire {
+  font-family: "Cinzel", serif;
+  font-size: 4.5rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-shadow: 0 0 40px rgba(201, 168, 76, 0.4);
+  line-height: 1;
+}
+
+#sous-titre-solitaire {
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.35em;
+  margin-top: -32px;
+  text-transform: uppercase;
+}
+
+#cartes-diff {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.carte-mode {
+  width: 170px;
+  background: #111c13;
+  border: 1px solid var(--gold-dim);
+  border-radius: 16px;
+  padding: 28px 20px 22px;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.carte-mode:hover {
+  transform: translateY(-8px);
+  border-color: var(--gold);
+  box-shadow: 0 16px 50px rgba(201, 168, 76, 0.2);
+}
+
+.carte-mode-icon {
+  font-size: 2.8rem;
+}
+
+.carte-mode h2 {
+  font-family: "Cinzel", serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+}
+
+.carte-mode p {
+  font-size: 0.65rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.mode-pip {
+  font-size: 1.4rem;
+  color: var(--gold-dim);
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+/* ===== ÉCRAN JEU ===== */
+#ecran-jeu {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px 20px;
+  gap: 10px;
+}
+
+/* Barre contrôles */
+#barre-controles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+#info-mode {
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+}
+
+#chrono {
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  letter-spacing: 0.08em;
+}
+
+#barre-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-ctrl {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: #aaa;
+  font-family: "DM Mono", monospace;
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.btn-ctrl:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+.btn-ctrl:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Zone de jeu */
+#zone-jeu {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+/* Rangée du haut */
+#rangee-haut {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* Emplacements */
+.emplacement-carte {
+  width: var(--card-w);
+  height: var(--card-h);
+  border: 2px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.emplacement-carte.drop-target {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+}
+
+.fondation {
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.15);
+}
+
+/* Tableau */
+#tableau {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+}
+
+.colonne {
+  width: var(--card-w);
+  min-height: var(--card-h);
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* ===== CARTES ===== */
+.carte {
+  width: var(--card-w);
+  height: var(--card-h);
+  border-radius: 8px;
+  position: absolute;
+  cursor: pointer;
+  transition:
+    box-shadow 0.15s,
+    transform 0.15s;
+  user-select: none;
+}
+
+.carte img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  display: block;
+  pointer-events: none;
+}
+
+/* Dos de carte */
+.carte.face-cachee {
+  background: linear-gradient(135deg, #0d2418 0%, #1a3d28 50%, #0d2418 100%);
+  border: 2px solid rgba(201, 168, 76, 0.3);
+  cursor: default;
+}
+
+.carte.face-cachee::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 4px;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 4px,
+    rgba(201, 168, 76, 0.05) 4px,
+    rgba(201, 168, 76, 0.05) 5px
+  );
+}
+
+.carte.selectionnee {
+  box-shadow:
+    0 0 0 3px var(--gold),
+    0 8px 24px rgba(0, 0, 0, 0.5);
+  transform: translateY(-4px);
+  z-index: 500 !important;
+}
+
+.carte:hover:not(.face-cachee):not(.selectionnee) {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Talon vide */
+#talon.vide {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+}
+
+/* Carte dans défausse (on empile légèrement pour effet visuel) */
+#defausse .carte {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

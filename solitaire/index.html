@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Hub - Solitaire</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <!-- Bouton retour -->
+    <button id="btn-retour" class="btn-menu">⬅ Accueil</button>
+
+    <!-- Bouton joueur -->
+    <button id="btn-changer-joueur" class="btn-menu btn-joueur">
+      👤 <span id="pseudo-affiche">?</span> ✎
+    </button>
+
+    <!-- Scoreboard -->
+    <div id="scoreboard">
+      <div id="scoreboard-titre">🏆 MEILLEURS TEMPS</div>
+      <div id="score-tabs">
+        <button class="tab active" data-pioche="1">Facile (×1)</button>
+        <button class="tab" data-pioche="3">Classique (×3)</button>
+      </div>
+      <table id="score-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Pseudo</th>
+            <th>Temps</th>
+          </tr>
+        </thead>
+        <tbody id="score-body">
+          <tr>
+            <td colspan="3" class="score-vide">Aucun score</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal pseudo -->
+    <div id="modal-pseudo" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h2>TON PSEUDO</h2>
+        <input
+          type="text"
+          id="input-pseudo"
+          maxlength="16"
+          placeholder="Entre ton pseudo..."
+        />
+        <button id="btn-valider-pseudo">Valider</button>
+      </div>
+    </div>
+
+    <!-- Écran accueil / choix difficulté -->
+    <div id="ecran-accueil">
+      <h1 id="titre-solitaire">SOLITAIRE</h1>
+
+      <div id="cartes-diff">
+        <div class="carte-mode" data-pioche="1">
+          <div class="carte-mode-icon">🃏</div>
+          <h2>FACILE</h2>
+          <p>Pioche 1 carte<br />à la fois</p>
+          <div class="mode-pip">×1</div>
+        </div>
+        <div class="carte-mode" data-pioche="3">
+          <div class="carte-mode-icon">🂠</div>
+          <h2>CLASSIQUE</h2>
+          <p>Pioche 3 cartes<br />à la fois</p>
+          <div class="mode-pip">×3</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Écran jeu -->
+    <div id="ecran-jeu" class="hidden">
+      <!-- Barre de contrôles -->
+      <div id="barre-controles">
+        <div id="info-mode"></div>
+        <div id="chrono">⏱ 00:00</div>
+        <div id="barre-actions">
+          <button id="btn-undo" class="btn-ctrl" title="Annuler">
+            ↩ Annuler
+          </button>
+          <button id="btn-nouvelle-partie" class="btn-ctrl">↺ Rejouer</button>
+          <button id="btn-changer-mode" class="btn-ctrl">⚙ Mode</button>
+        </div>
+      </div>
+
+      <!-- Zone de jeu -->
+      <div id="zone-jeu">
+        <!-- Rangée du haut : talon + défausse + fondations -->
+        <div id="rangee-haut">
+          <div
+            id="talon"
+            class="emplacement-carte"
+            title="Cliquer pour piocher"
+          ></div>
+          <div id="defausse" class="emplacement-carte"></div>
+          <div class="spacer"></div>
+          <div
+            class="fondation emplacement-carte"
+            id="fond-0"
+            data-enseigne="coeur"
+          >
+            ♥
+          </div>
+          <div
+            class="fondation emplacement-carte"
+            id="fond-1"
+            data-enseigne="carreau"
+          >
+            ♦
+          </div>
+          <div
+            class="fondation emplacement-carte"
+            id="fond-2"
+            data-enseigne="trèfle"
+          >
+            ♣
+          </div>
+          <div
+            class="fondation emplacement-carte"
+            id="fond-3"
+            data-enseigne="pique"
+          >
+            ♠
+          </div>
+        </div>
+
+        <!-- Tableau des 7 colonnes -->
+        <div id="tableau">
+          <div class="colonne" id="col-0"></div>
+          <div class="colonne" id="col-1"></div>
+          <div class="colonne" id="col-2"></div>
+          <div class="colonne" id="col-3"></div>
+          <div class="colonne" id="col-4"></div>
+          <div class="colonne" id="col-5"></div>
+          <div class="colonne" id="col-6"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal victoire -->
+    <div id="modal-victoire" class="modal-overlay hidden">
+      <div class="modal-box">
+        <div style="font-size: 3rem">🏆</div>
+        <h2>GAGNÉ !</h2>
+        <p>Temps : <strong id="temps-final">--:--</strong></p>
+        <p id="msg-record" style="color: #f1c40f; display: none">
+          🌟 Nouveau record !
+        </p>
+        <button id="btn-rejouer-modal">Rejouer</button>
+      </div>
+    </div>
+
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
