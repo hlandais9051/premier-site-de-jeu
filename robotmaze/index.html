@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Hub - Robot Maze</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <button id="btn-retour" class="btn-menu">⬅ Accueil</button>
+    <button id="btn-changer-joueur" class="btn-menu btn-joueur">
+      👤 <span id="pseudo-affiche">?</span> ✎
+    </button>
+
+    <!-- Scoreboard -->
+    <div id="scoreboard">
+      <div id="scoreboard-titre">🏆 MEILLEURS SCORES</div>
+      <table id="score-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Pseudo</th>
+          </tr>
+        </thead>
+        <tbody id="score-body">
+          <tr>
+            <td colspan="3" class="score-vide">Aucun score</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal pseudo -->
+    <div id="modal-pseudo" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h2>TON PSEUDO</h2>
+        <input
+          type="text"
+          id="input-pseudo"
+          maxlength="16"
+          placeholder="Entre ton pseudo..."
+        />
+        <button id="btn-valider-pseudo">Valider</button>
+      </div>
+    </div>
+
+    <!-- Modal résumé de manche -->
+    <div id="modal-manche" class="modal-overlay hidden">
+      <div class="modal-box">
+        <div id="manche-emoji">✅</div>
+        <h2 id="manche-titre">MANCHE 1 TERMINÉE</h2>
+        <div id="manche-classement"></div>
+        <p id="manche-elimine"></p>
+        <p id="manche-restants"></p>
+        <button id="btn-manche-suivante">Manche suivante ▶</button>
+      </div>
+    </div>
+
+    <!-- Modal fin de saison -->
+    <div id="modal-victoire" class="modal-overlay hidden">
+      <div class="modal-box">
+        <div id="victoire-emoji">🏆</div>
+        <h2 id="victoire-titre">FIN DE SAISON</h2>
+        <p id="victoire-message"></p>
+        <button id="btn-rejouer">Nouvelle saison</button>
+      </div>
+    </div>
+
+    <div id="app">
+      <div id="header">
+        <h1 id="titre">ROBOT MAZE</h1>
+        <p id="sous-titre">
+          Programme ton robot · Élimine les adversaires · Deviens champion
+        </p>
+      </div>
+
+      <div id="main">
+        <!-- Tableau des PV (gauche) -->
+        <div id="panneau-pv">
+          <div class="section-label">ROBOTS</div>
+          <div id="liste-pv"></div>
+          <div id="liste-robots-pv"></div>
+        </div>
+
+        <!-- Grille -->
+        <div id="grille-wrapper">
+          <canvas id="canvas-jeu"></canvas>
+        </div>
+
+        <!-- Panneau droit -->
+        <div id="panneau">
+          <!-- Infos saison / tour -->
+          <div id="info-tour">
+            <div id="info-saison-ligne">
+              <div>
+                <div class="section-label">MANCHE</div>
+                <div id="numero-manche">1/7</div>
+              </div>
+              <div>
+                <div class="section-label">TOUR</div>
+                <div id="numero-tour">1</div>
+              </div>
+            </div>
+            <div id="robots-vivants"></div>
+          </div>
+
+          <!-- Main du joueur -->
+          <div id="section-main">
+            <div class="section-label">
+              TA MAIN — <span id="nb-selectionnes">0</span>/5
+            </div>
+            <div id="cartes-main"></div>
+          </div>
+
+          <!-- Programme -->
+          <div id="section-programme">
+            <div class="section-label">TON PROGRAMME</div>
+            <div id="slots-programme">
+              <div class="slot-prog" data-slot="0">1</div>
+              <div class="slot-prog" data-slot="1">2</div>
+              <div class="slot-prog" data-slot="2">3</div>
+              <div class="slot-prog" data-slot="3">4</div>
+              <div class="slot-prog" data-slot="4">5</div>
+            </div>
+          </div>
+
+          <div id="btn-zone">
+            <button id="btn-valider-prog" disabled>▶ JOUER</button>
+            <button id="btn-reset-prog">✕ Reset</button>
+          </div>
+
+          <!-- Légende -->
+          <div id="legende">
+            <div class="legende-item">
+              <span class="leg-dot" style="background: #00ff88"></span>Qualifié
+            </div>
+            <div class="legende-item">
+              <span class="leg-dot" style="background: #00c8ff"></span>Toi
+            </div>
+            <div class="legende-item">
+              <span
+                class="leg-dot"
+                style="background: #000; border: 1px solid #900"
+              ></span
+              >Trou ☠
+            </div>
+            <div class="legende-item">
+              <span class="leg-dot" style="background: #3a5490"></span>Mur ▪
+            </div>
+          </div>
+
+          <div id="log-actions"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
